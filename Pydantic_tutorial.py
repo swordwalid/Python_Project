@@ -1,26 +1,26 @@
 from pydantic import BaseModel, EmailStr, field_validator
 
-# class User(BaseModel):
-#     name: str
-#     email: EmailStr  # instead of str we can set EmailStr to validate valid email
-#     account_id: int
+class User(BaseModel):
+    name: str
+    email: EmailStr  # instead of str we can set EmailStr to validate valid email
+    account_id: int
 
 
-# user = User(name="jack", email="jackpot@pod.io", account_id=123)
+user = User(name="jack", email="jackpot@pod.io", account_id=123)
 
-# print(user)
+print(user)
 # result: name='jack' email='jackpot@pod.io' account_id=123
 
 # Pydantic shows auto typehints
 
-# print(user.name)  # jack
-# print(user.email)  # jackpot@pod.io
-# print(user.account_id)  # 123
+print(user.name)  # jack
+print(user.email)  # jackpot@pod.io
+print(user.account_id)  # 123
 
 # Data validation using pydantic
 
-# user = User(name="jack", email="jackpot@pod.io", account_id="Hi")
-# print(user)
+user = User(name="jack", email="jackpot@pod.io", account_id="Hi")
+print(user)
 """
 result:  Input should be a valid integer,
 unable to parse string as an integer [type=int_parsing, input_value='Hello', input_type=str]
@@ -29,7 +29,7 @@ unable to parse string as an integer [type=int_parsing, input_value='Hello', inp
 # Now we will validate email address!
 
 
-# user = User(name="Karl", email="abcd", account_id=123)
+user = User(name="Karl", email="abcd", account_id=123)
 
 """
 result:  value is not a valid email address: The email address is not valid. 
@@ -44,7 +44,7 @@ class User(BaseModel):
     email: EmailStr  # instead of str we can set EmailStr to validate valid email
     account_id: int
 
-    # now will apply some condition to validate account_id
+    # now will apply some conditions to validate account_id
 
     @field_validator("account_id")
     def validate_account_id(cls, value):
@@ -53,7 +53,7 @@ class User(BaseModel):
         return value
 
 
-# user = User(name="Karl", email="john.smith@example.com", account_id=11303)
+user = User(name="Karl", email="john.smith@example.com", account_id=11303)
 """
 result:  1 validation error for User
 account_id Value error, 
@@ -62,16 +62,16 @@ account_id must be in between  10030 and 20000:123 [type=value_error, input_valu
 
 # JSON Serialization using pydantic
 
-# user_json_str = user.json()
-# print(user_json_str)
+user_json_str = user.json()
+print(user_json_str)
 
 """
 result:  {"name":"Karl","email":"john.smith@example.com","account_id":11303}
 """
-# if wanna get in form of dictionary
+# if we wanna get in form of dictionary
 
-# user_dict_obj=user.dict()
-# print(user_dict_obj)
+user_dict_obj=user.dict()
+print(user_dict_obj)
 
 """
 result:  {'name': 'Karl', 'email': 'john.smith@example.com', 'account_id': 11303}
